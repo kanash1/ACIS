@@ -28,6 +28,7 @@ public class CPU {
     public static final int MEMORY_SIZE = 1024;
     public static final int PROTECTED_MEMORY_SIZE = MEMORY_SIZE / 2;
 
+    // TODO: порты
     public CPU() {
         intRegs = new ArrayList<>(INT_REGS_COUNT);
         for (int count = 0; count < INT_REGS_COUNT; ++count)

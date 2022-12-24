@@ -60,6 +60,7 @@ public class EmulatorController {
         trapToggleButton.setSelected(cpu.statusReg.getFlagStatus(Flag.TRAP));
         supervisorToggleButton.setSelected(cpu.statusReg.getFlagStatus(Flag.SUPERVISOR));
 
+        // TODO: проверку на количество инчтрукций
         loadIntoMemoryButton.setOnAction(actionEvent -> {
             String[] instructions = codeTextArea.getText().split("\n");
 
@@ -78,6 +79,7 @@ public class EmulatorController {
                 showAlert(e.getMessage());
             }
 
+            // TODO: убрать когда, появятся операции с памятью
             // временно, пока нет операций с памятью
             cpu.intRegs.get(1).setValue(5);
             cpu.intRegs.get(2).setValue(6);
