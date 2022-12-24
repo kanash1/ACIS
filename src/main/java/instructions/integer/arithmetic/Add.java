@@ -26,6 +26,11 @@ public class Add extends Instruction<OperandsRRR> {
         // https://stackoverflow.com/questions/3001836/how-does-java-handle-integer-underflows-and-overflows-and-how-would-you-check-fo
         cpu.statusReg.setFlagStatus(Flag.OVERFLOW, ((fstValue & secValue & ~result) | (~fstValue & ~secValue & result)) < 0);
 
+        // если произошел перенос (переполнение) (result > UnsignedInteger.MAX_VALUE), флаг carry становится равен 1, иначе 0
+        // https://stackoverflow.com/questions/31170203/calculating-carry-flag
+        // https://stackoverflow.com/questions/69124873/understanding-the-difference-between-overflow-and-carry-flags
+        cpu.statusReg.setFlagStatus(Flag.CARRY, (fstValue ^ Integer.MIN_VALUE) < (secValue ^ Integer.MIN_VALUE));
+
         // если result < 0 (именно в int формате), флаг sign становится равен 1, иначе 0
         cpu.statusReg.setFlagStatus(Flag.SIGN, result < 0);
 
