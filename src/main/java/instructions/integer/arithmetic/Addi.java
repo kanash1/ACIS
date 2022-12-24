@@ -14,7 +14,7 @@ public class Addi extends Instruction<OperandsRRC> {
     @Override
     public void execute(CPU cpu, OperandsRRC operands) throws InterruptException {
         int fstValue = cpu.intRegs.get(operands.sourceRegister).getValue();
-        int secValue = cpu.intRegs.get(operands.const12Bit).getValue();
+        int secValue = operands.const12Bit;
 
         int result = fstValue + secValue;
 
