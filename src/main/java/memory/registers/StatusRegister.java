@@ -15,9 +15,8 @@ public class StatusRegister extends Register8 {
         setFlagStatus(flag, !getFlagStatus(flag));
     }
 
-    // TODO: некоректно отображается
     @Override
     public String toString() {
-        return super.toString().replace("0", "0    ").trim();
+        return super.toString().replaceAll("(.)", "$1    ").trim();
     }
 }

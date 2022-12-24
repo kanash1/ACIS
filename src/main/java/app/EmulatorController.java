@@ -12,7 +12,6 @@ import parsing.IncorrectFormatException;
 import parsing.Parser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class EmulatorController {
@@ -23,7 +22,7 @@ public class EmulatorController {
     @FXML
     public ListView<WordCell> memoryListView;
     @FXML
-    public Button importButton;
+    public ToggleButton supervisorToggleButton;
     @FXML
     public Button startButton;
     @FXML
@@ -43,13 +42,11 @@ public class EmulatorController {
 
     private CPU cpu;
     private Parser parser;
+    private boolean isProgramEnd;
 
-    // TODO: это временно
-    int count = 0;
-
-    // TODO
     @FXML
     void initialize() {
+        isProgramEnd = false;
         parser = new Parser();
         cpu = new CPU();
         memoryListView.setItems(FXCollections.observableList(cpu.memory.asWordList()));
@@ -59,12 +56,12 @@ public class EmulatorController {
         statusListView.setItems(FXCollections.observableList(new ArrayList<>(){{add(cpu.statusReg);}}));
         nextButton.setDisable(true);
         resetButton.setDisable(true);
+        startButton.setDisable(true);
+        trapToggleButton.setSelected(cpu.statusReg.getFlagStatus(Flag.TRAP));
+        supervisorToggleButton.setSelected(cpu.statusReg.getFlagStatus(Flag.SUPERVISOR));
 
         loadIntoMemoryButton.setOnAction(actionEvent -> {
-            cpu.clear();
             String[] instructions = codeTextArea.getText().split("\n");
-            // врменно
-            count = instructions.length * 4;
 
             List<Integer> instructionsData = new ArrayList<>();
 
@@ -81,46 +78,56 @@ public class EmulatorController {
                 showAlert(e.getMessage());
             }
 
-            // временно
+            // временно, пока нет операций с памятью
             cpu.intRegs.get(1).setValue(5);
             cpu.intRegs.get(2).setValue(6);
+            cpu.floatRegs.get(1).setValueAsFloat(50.78f);
+            cpu.floatRegs.get(2).setValueAsFloat(-63.7f);
 
+            startButton.setDisable(instructionsData.size() == 0);
             refreshAll();
         });
 
         startButton.setOnAction(actionEvent -> {
-            if (cpu.statusReg.getFlagStatus(Flag.TRAP)) {
-                cpu.nextInstruction();
+            try {
                 startButton.setDisable(true);
-                nextButton.setDisable(false);
-            } else {
-                while (cpu.programCounter.getValue() < count) {
-                    cpu.nextInstruction();
+                loadIntoMemoryButton.setDisable(true);
+                automaticExecution();
+            } catch (EmulationAbortException e) {
+                showAlert(e.getMessage());
+                nextButton.setDisable(true);
+                resetButton.setDisable(false);
+                isProgramEnd = true;
+            }
+            refreshAll();
+        });
+
+        nextButton.setOnAction(actionEvent -> {
+            try {
+                if (cpu.statusReg.getFlagStatus(Flag.TRAP) && !isProgramEnd) {
+                    isProgramEnd = cpu.nextInstruction();
+                    resetButton.setDisable(!isProgramEnd);
+                    nextButton.setDisable(isProgramEnd);
+                } else {
+                    automaticExecution();
                 }
+            } catch (EmulationAbortException e) {
+                showAlert(e.getMessage());
+                nextButton.setDisable(true);
+                resetButton.setDisable(false);
+                isProgramEnd = true;
             }
             refreshAll();
         });
 
         resetButton.setOnAction(actionEvent -> {
-            nextButton.setDisable(true);
-            startButton.setDisable(false);
-            resetButton.setDisable(true);
             cpu.clear();
-        });
-
-        importButton.setOnAction(actionEvent -> {
-
-        });
-
-        nextButton.setOnAction(actionEvent -> {
-            if (cpu.statusReg.getFlagStatus(Flag.TRAP) && cpu.programCounter.getValue() < count) {
-                cpu.nextInstruction();
-            }
-            else {
-                while (cpu.programCounter.getValue() < count) {
-                    cpu.nextInstruction();
-                }
-            }
+            nextButton.setDisable(true);
+            resetButton.setDisable(true);
+            loadIntoMemoryButton.setDisable(false);
+            trapToggleButton.setSelected(cpu.statusReg.getFlagStatus(Flag.TRAP));
+            supervisorToggleButton.setSelected(cpu.statusReg.getFlagStatus(Flag.SUPERVISOR));
+            isProgramEnd = false;
             refreshAll();
         });
 
@@ -128,6 +135,26 @@ public class EmulatorController {
             cpu.statusReg.invertFlagStatus(Flag.TRAP);
             refreshAll();
         });
+
+        supervisorToggleButton.setOnAction(actionEvent -> {
+            cpu.statusReg.invertFlagStatus(Flag.SUPERVISOR);
+            refreshAll();
+        });
+    }
+
+    private void automaticExecution() throws EmulationAbortException {
+        trapToggleButton.setDisable(true);
+        supervisorToggleButton.setDisable(true);
+        nextButton.setDisable(true);
+
+        while (!cpu.statusReg.getFlagStatus(Flag.TRAP) && !isProgramEnd) {
+            isProgramEnd = cpu.nextInstruction();
+            resetButton.setDisable(!isProgramEnd);
+        }
+
+        nextButton.setDisable(isProgramEnd);
+        trapToggleButton.setDisable(false);
+        supervisorToggleButton.setDisable(false);
     }
 
     private void showAlert(String alertInfo) {
