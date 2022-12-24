@@ -7,7 +7,7 @@ import operands.OperandsN;
 
 public class Nop extends Instruction<OperandsN> {
     public Nop() {
-        super(1, "nop");
+        super(83, "nop");
     }
 
     @Override

@@ -81,8 +81,8 @@ public class EmulatorController {
 
             // TODO: убрать когда, появятся операции с памятью
             // временно, пока нет операций с памятью
-            cpu.intRegs.get(1).setValue(5);
-            cpu.intRegs.get(2).setValue(6);
+            cpu.intRegs.get(1).setValue(30);
+            cpu.intRegs.get(2).setValue(-131);
             cpu.floatRegs.get(1).setValueAsFloat(50.78f);
             cpu.floatRegs.get(2).setValueAsFloat(-63.7f);
 

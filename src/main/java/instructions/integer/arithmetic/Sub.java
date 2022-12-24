@@ -7,7 +7,7 @@ import operands.OperandsRRR;
 
 public class Sub extends Instruction<OperandsRRR> {
     public Sub() {
-        super(3, "sub");
+        super(2, "sub");
     }
 
     @Override
