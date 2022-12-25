@@ -6,8 +6,8 @@ import cpu.interrupts.exceptions.InterruptException;
 import instructions.Instruction;
 import operands.OperandsRRR;
 
-public class Sub extends Instruction<OperandsRRR> {
-    public Sub() {
+public class SUB extends Instruction<OperandsRRR> {
+    public SUB() {
         super(2, "sub");
     }
 

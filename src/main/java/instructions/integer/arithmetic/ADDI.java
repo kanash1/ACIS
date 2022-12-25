@@ -6,8 +6,8 @@ import cpu.interrupts.exceptions.InterruptException;
 import instructions.Instruction;
 import operands.OperandsRRC;
 
-public class Addi extends Instruction<OperandsRRC> {
-    public Addi() {
+public class ADDI extends Instruction<OperandsRRC> {
+    public ADDI() {
         super(3, "addi");
     }
 
