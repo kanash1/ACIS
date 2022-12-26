@@ -48,7 +48,7 @@ public class CPU {
     public boolean nextInstruction() throws EmulationAbortException {
         if (!isProgramEnd) {
             try {
-                int instructionData = memory.getWord(programCounter.postIncrement());
+                int instructionData = memory.getWord(programCounter.postIncrementToNextInstruction());
                 int opcode = instructionData >>> (Instruction.SIZE - Instruction.OPCODE_SIZE);
                 if (opcode != 0) {
                     int operandsData = instructionData << Instruction.OPCODE_SIZE;

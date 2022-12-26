@@ -56,16 +56,23 @@ public class HalfWordCell implements Cell<Short> {
 
     @Override
     public ByteCell toByteCell() {
-        return null;
+        return new ByteCell(bytes.get(1).getValue());
     }
 
     @Override
     public HalfWordCell toHalfWord() {
-        return null;
+        return new HalfWordCell(getValue());
     }
 
     @Override
     public WordCell toWordCell() {
-        return null;
+        List<ByteCell> bites = new ArrayList<>(){{
+            add(new ByteCell());
+            add(new ByteCell());
+            add(new ByteCell(bytes.get(0).getValue()));
+            add(new ByteCell(bytes.get(1).getValue()));
+        }};
+
+        return new WordCell(bites);
     }
 }

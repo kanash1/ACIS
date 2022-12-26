@@ -4,9 +4,9 @@ import instructions.Instruction;
 import memory.registers.Register32;
 
 public class OperandsRRR extends Operands {
-    public int destinationRegister;
-    public int firstSourceRegister;
-    public int secondSourceRegister;
+    public int firstRegister; // чаще всего регистр назначения, но не всегда
+    public int secondRegister;
+    public int thirdRegister;
 
     public OperandsRRR(int operandsData) {
         super(operandsData);
@@ -14,10 +14,10 @@ public class OperandsRRR extends Operands {
 
     @Override
     protected void disassemble(int operandsData) {
-        destinationRegister = operandsData >>> (Instruction.SIZE - Register32.ADDRESS_SIZE);
+        firstRegister = operandsData >>> (Instruction.SIZE - Register32.ADDRESS_SIZE);
         operandsData <<= Register32.ADDRESS_SIZE;
-        firstSourceRegister = operandsData >>> (Instruction.SIZE - Register32.ADDRESS_SIZE);
+        secondRegister = operandsData >>> (Instruction.SIZE - Register32.ADDRESS_SIZE);
         operandsData <<= Register32.ADDRESS_SIZE;
-        secondSourceRegister = operandsData >>> (Instruction.SIZE - Register32.ADDRESS_SIZE);
+        thirdRegister = operandsData >>> (Instruction.SIZE - Register32.ADDRESS_SIZE);
     }
 }

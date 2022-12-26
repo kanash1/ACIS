@@ -6,7 +6,6 @@ import cpu.interrupts.exceptions.InterruptException;
 import instructions.Instruction;
 import operands.OperandsRRR;
 
-// TODO: 25.12.2022  
 public class MUL extends Instruction<OperandsRRR> {
     public MUL() {
         super(10, "mul");
@@ -14,27 +13,19 @@ public class MUL extends Instruction<OperandsRRR> {
 
     @Override
     public void execute(CPU cpu, OperandsRRR operands) throws InterruptException {
-        int fstValue = cpu.intRegs.get(operands.firstSourceRegister).getValue();
-        int secValue = cpu.intRegs.get(operands.secondSourceRegister).getValue();
+        int fstValue = cpu.intRegs.get(operands.secondRegister).getValue();
+        int secValue = cpu.intRegs.get(operands.thirdRegister).getValue();
 
         int result = fstValue * secValue;
 
-        // если result == 0, флаг zero становится равен 1, иначе 0
         cpu.statusReg.setFlagStatus(Flag.ZERO, result == 0);
 
-        // если произошло переполнение result > Integer.MAX_VALUE или result < Integer.MIN_VALUE,
-        // флаг overflow становится равен 1, иначе 0
-        // https://stackoverflow.com/questions/3001836/how-does-java-handle-integer-underflows-and-overflows-and-how-would-you-check-fo
-        cpu.statusReg.setFlagStatus(Flag.OVERFLOW, ((fstValue & secValue & ~result) | (~fstValue & ~secValue & result)) < 0);
+        cpu.statusReg.setFlagStatus(Flag.OVERFLOW, (fstValue != 0 && result / fstValue != secValue));
 
-        // если произошел перенос (переполнение) (result > UnsignedInteger.MAX_VALUE), флаг carry становится равен 1, иначе 0
-        // https://stackoverflow.com/questions/31170203/calculating-carry-flag
-        // https://stackoverflow.com/questions/69124873/understanding-the-difference-between-overflow-and-carry-flags
-        cpu.statusReg.setFlagStatus(Flag.CARRY, (fstValue ^ Integer.MIN_VALUE) < (secValue ^ Integer.MIN_VALUE));
+        cpu.statusReg.setFlagStatus(Flag.CARRY, (fstValue != 0 && result / fstValue != secValue));
 
-        // если result < 0 (именно в int формате), флаг sign становится равен 1, иначе 0
         cpu.statusReg.setFlagStatus(Flag.SIGN, result < 0);
 
-        cpu.intRegs.get(operands.destinationRegister).setValue(result);
+        cpu.intRegs.get(operands.firstRegister).setValue(result);
     }
 }

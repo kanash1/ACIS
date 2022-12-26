@@ -64,17 +64,21 @@ public class WordCell implements Cell<Integer> {
 
     @Override
     public ByteCell toByteCell() {
-        return null;
+        return new ByteCell(bytes.get(3).getValue());
     }
 
     @Override
     public HalfWordCell toHalfWord() {
-        return null;
+        List<ByteCell> bites = new ArrayList<>(){{
+            add(new ByteCell(bytes.get(2).getValue()));
+            add(new ByteCell(bytes.get(3).getValue()));
+        }};
+        return new HalfWordCell(bites);
     }
 
     @Override
     public WordCell toWordCell() {
-        return null;
+        return new WordCell(getValue());
     }
 
 }

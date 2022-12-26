@@ -1,7 +1,6 @@
 package instructions.integer.arithmetic;
 
 import cpu.CPU;
-import cpu.Flag;
 import cpu.interrupts.exceptions.InterruptException;
 import instructions.Instruction;
 import operands.OperandsRC;
@@ -18,6 +17,6 @@ public class AUIPC extends Instruction<OperandsRC> {
 
         int result = cpu.programCounter.getValue() + (fstValue << 12);
 
-        cpu.intRegs.get(operands.destinationRegister).setValue(result);
+        cpu.intRegs.get(operands.register).setValue(result);
     }
 }

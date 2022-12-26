@@ -79,13 +79,6 @@ public class EmulatorController {
                 showAlert(e.getMessage());
             }
 
-            // TODO: убрать когда, появятся операции с памятью
-            // временно, пока нет операций с памятью
-            cpu.intRegs.get(1).setValue(30);
-            cpu.intRegs.get(2).setValue(-131);
-            cpu.floatRegs.get(1).setValueAsFloat(50.78f);
-            cpu.floatRegs.get(2).setValueAsFloat(-63.7f);
-
             startButton.setDisable(instructionsData.size() == 0);
             refreshAll();
         });

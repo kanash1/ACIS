@@ -95,7 +95,7 @@
                                           <Insets />
                                        </opaqueInsets>
                                     </ListView>
-                                    <Label alignment="CENTER" maxWidth="148.0" prefHeight="20.0" prefWidth="138.0" text="–    S    T    I    O    C    S    Z" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                                    <Label alignment="CENTER" maxWidth="148.0" prefHeight="20.0" prefWidth="138.0" text="–    U    T    I    O    C    S    Z" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
                            </children>

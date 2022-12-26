@@ -37,12 +37,17 @@ public class ByteCell implements Cell<Byte> {
 
     @Override
     public ByteCell toByteCell() {
-        return null;
+        return new ByteCell(value);
     }
 
     @Override
     public HalfWordCell toHalfWord() {
-        return null;
+        List<ByteCell> bites = new ArrayList<>(){{
+            add(new ByteCell());
+            add(new ByteCell(value));
+        }};
+
+        return new HalfWordCell(bites);
     }
 
     @Override
