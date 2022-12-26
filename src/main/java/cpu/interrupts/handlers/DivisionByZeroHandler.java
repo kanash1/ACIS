@@ -7,6 +7,6 @@ import cpu.interrupts.exceptions.DivisionByZeroException;
 public class DivisionByZeroHandler extends InterruptHandler<DivisionByZeroException> {
     @Override
     public void handle(CPU cpu) throws EmulationAbortException {
-
+        throw new EmulationAbortException("Division by zero. Emulation aborted");
     }
 }

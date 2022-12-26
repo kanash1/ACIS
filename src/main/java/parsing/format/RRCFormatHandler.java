@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 
 public class RRCFormatHandler extends FormatHandler {
     public RRCFormatHandler() {
-        //super(Instruction.OperandsFormat.RRC);
         super(OperandsRRC.class);
     }
 

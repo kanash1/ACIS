@@ -6,7 +6,7 @@ import instructions.Instruction;
 import operands.OperandsRR;
 
 public class FCVTWS extends Instruction<OperandsRR> {
-    public FCVTWS(int opcode, String mnemonic) {
+    public FCVTWS() {
         super(54, "fcvtws");
     }
 

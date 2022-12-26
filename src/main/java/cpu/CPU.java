@@ -4,6 +4,7 @@ import app.EmulationAbortException;
 import cpu.interrupts.InterruptVectorTable;
 import cpu.interrupts.exceptions.InterruptException;
 import cpu.interrupts.exceptions.UnknownInstructionException;
+import cpu.ports.Port;
 import instructions.Instruction;
 import memory.RAM;
 import memory.registers.ProgramCounter;
@@ -20,7 +21,8 @@ public class CPU {
     public final ProgramCounter programCounter;
     public final StatusRegister statusReg;
     public final RAM memory;
-    public final InterruptVectorTable ivt;
+    public Port port;
+    private final InterruptVectorTable ivt;
     private boolean isProgramEnd;
 
     public static final int INT_REGS_COUNT = 32;
@@ -28,7 +30,6 @@ public class CPU {
     public static final int MEMORY_SIZE = 1024;
     public static final int PROTECTED_MEMORY_SIZE = MEMORY_SIZE / 2;
 
-    // TODO: порты
     public CPU() {
         intRegs = new ArrayList<>(INT_REGS_COUNT);
         for (int count = 0; count < INT_REGS_COUNT; ++count)
@@ -42,6 +43,7 @@ public class CPU {
         statusReg = new StatusRegister();
         memory = new RAM(MEMORY_SIZE);
         ivt = new InterruptVectorTable();
+        port = new Port();
         isProgramEnd = false;
     }
 

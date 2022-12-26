@@ -90,6 +90,7 @@ public class EmulatorController {
                 automaticExecution();
             } catch (EmulationAbortException e) {
                 showAlert(e.getMessage());
+                cpu.clear();
                 nextButton.setDisable(true);
                 resetButton.setDisable(false);
                 isProgramEnd = true;
@@ -108,6 +109,7 @@ public class EmulatorController {
                 }
             } catch (EmulationAbortException e) {
                 showAlert(e.getMessage());
+                cpu.clear();
                 nextButton.setDisable(true);
                 resetButton.setDisable(false);
                 isProgramEnd = true;
