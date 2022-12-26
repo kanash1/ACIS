@@ -15,7 +15,7 @@ public class JALR extends Instruction<OperandsRRC> {
     @Override
     public void execute(CPU cpu, OperandsRRC operands) throws InterruptException {
         int tmp = cpu.programCounter.getValue() + 4;
-        cpu.programCounter.setValue(cpu.intRegs.get(operands.secondRegister).getValue() + operands.const12Bit);
+        cpu.programCounter.setValue((cpu.intRegs.get(operands.secondRegister).getValue() + operands.const12Bit)&~1);
         cpu.intRegs.get(operands.firstRegister).setValue(tmp);
     }
 }
