@@ -12,6 +12,6 @@ public class RET extends Instruction<OperandsN> {
 
     @Override
     public void execute(CPU cpu, OperandsN operands) throws InterruptException {
-
+        cpu.programCounter.setValue(cpu.returnAddressRegister.getValue() & ~1);
     }
 }

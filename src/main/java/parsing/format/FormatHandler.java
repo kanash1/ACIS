@@ -44,33 +44,6 @@ public abstract class FormatHandler {
         formatRegex = regexBuilder.toString();
     }
 
-    /* FormatHandler(Instruction.OperandsFormat operandsFormat) {
-        List<String> operandRegexes = createOperandRegexes();
-        StringBuilder regexBuilder = new StringBuilder().append("^( *)(");
-        boolean isFirst = true;
-
-        for (var instruction : Instruction.values()) {
-            if (instruction.getFormat() == operandsFormat) {
-                if (!isFirst)
-                    regexBuilder.append("|");
-
-                regexBuilder
-                        .append(instruction.getMnemonic().toUpperCase())
-                        .append("|")
-                        .append(instruction.getMnemonic().toLowerCase());
-                isFirst = false;
-            }
-        }
-        regexBuilder.append(")");
-
-        for (var operandRegex : operandRegexes)
-            regexBuilder.append("( +)").append(operandRegex);
-
-        regexBuilder.append("( *)$");
-
-        formatRegex = regexBuilder.toString();
-    }*/
-
     public void setSuccessor(FormatHandler successor) {
         this.successor = successor;
     }

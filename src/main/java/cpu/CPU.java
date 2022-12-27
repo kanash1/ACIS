@@ -20,8 +20,9 @@ public class CPU {
     public final List<Register32> floatRegs;
     public final ProgramCounter programCounter;
     public final StatusRegister statusReg;
+        public final Register32 returnAddressRegister;
     public final RAM memory;
-    public Port port;
+    public final Port port;
     private final InterruptVectorTable ivt;
     private boolean isProgramEnd;
 
@@ -44,6 +45,7 @@ public class CPU {
         memory = new RAM(MEMORY_SIZE);
         ivt = new InterruptVectorTable();
         port = new Port();
+        returnAddressRegister = new Register32();
         isProgramEnd = false;
     }
 

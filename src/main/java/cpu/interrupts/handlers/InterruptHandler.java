@@ -4,6 +4,6 @@ import app.EmulationAbortException;
 import cpu.CPU;
 import cpu.interrupts.exceptions.InterruptException;
 
-public abstract class InterruptHandler<T extends InterruptException> {
-    public abstract void handle(CPU cpu) throws EmulationAbortException;
+public interface InterruptHandler<T extends InterruptException> {
+    void handle(CPU cpu) throws EmulationAbortException;
 }

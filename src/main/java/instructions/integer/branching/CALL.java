@@ -12,6 +12,8 @@ public class CALL extends Instruction<OperandsC> {
 
     @Override
     public void execute(CPU cpu, OperandsC operands) throws InterruptException {
-
+        int tmp = cpu.programCounter.getValue() + 4;
+        cpu.programCounter.setValue(cpu.returnAddressRegister.getValue() + operands.const20Bit & ~1);
+        cpu.returnAddressRegister.setValue(tmp);
     }
 }
